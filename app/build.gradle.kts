@@ -41,6 +41,22 @@ android {
 
 dependencies {
 
+    // Import the Compose BOM
+    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
+
+    // Add core Compose libraries without version numbers
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui-tooling")
+    implementation("androidx.activity:activity-compose")
+
+    // The ui-layout dependency should not have a version
+    //implementation("androidx.compose.ui:ui-layout")
+
+    //implementation("androidx.compose.ui:ui-layout:1.7.0")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -57,3 +73,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+
+
+

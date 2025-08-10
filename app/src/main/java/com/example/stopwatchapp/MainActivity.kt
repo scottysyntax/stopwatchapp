@@ -58,6 +58,13 @@ fun StopwatchScreen() {
         }
     }
 
+    // New way to extract time values for individual display
+    val totalSeconds = elapsedTimeInMillis / 1000
+    val hours = TimeUnit.SECONDS.toHours(totalSeconds)
+    val minutes = TimeUnit.SECONDS.toMinutes(totalSeconds) % 60
+    val secs = totalSeconds % 60
+    val hundredths = (elapsedTimeInMillis % 1000) / 10
+
     // Main Column
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -65,19 +72,58 @@ fun StopwatchScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Sets the font attributes for the numbers
+        /*
         Text(
             text = formatTime(elapsedTimeInMillis   ),
             fontSize = 80.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 60.dp)
         )
-
+        */
+        // Row to hold all the number columns
+        Row(
+            modifier = Modifier.padding(bottom = 32.dp),
+            verticalAlignment = Alignment.Bottom
+        )
+        {
+            TimeSection(number = String.format("%02d", hours), label = "HOURS")
+            Text(
+                text = ":",
+                fontSize = 60.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .alignByBaseline()
+                    .offset(y = 8.dp)
+            )
+            TimeSection(number = String.format("%02d", minutes), label = "MINS")
+            Text(
+                text = ":",
+                fontSize = 60.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .alignByBaseline()
+                    .offset(y = 2.dp)
+            )
+            TimeSection(number = String.format("%02d", secs), label = "SECS")
+            Text(
+                text = ".",
+                fontSize = 60.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .alignByBaseline()
+                    .offset(y = 2.dp)
+            )
+            TimeSection(number = String.format("%02d", hundredths), label = "1/100")
+        }
         // Button row
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 32.dp)
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 32.dp
+                )
         ) {
             // Change the Start button display to Pause, Resume, or Start, depending.
             Button(
@@ -114,6 +160,24 @@ fun StopwatchScreen() {
     } //end Main Column
 } // end fun StopwatchScreen
 
+// composable to display each number and its label
+// A new composable to display each number and its label
+@Composable
+fun TimeSection(number: String, label: String) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(horizontal = 4.dp)) {
+        Text(
+            text = number,
+            fontSize = 60.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(top = 10.dp) //// Test with a different modifier
+        )
+        Text(
+            text = label,
+            fontSize = 12.sp
+        )
+    }
+}
+/*
 private fun formatTime(timeInMillis: Long): String {
     // determine the seconds by dividing milliseconds by 1000
     val totalSeconds = timeInMillis / 1000
@@ -127,6 +191,7 @@ private fun formatTime(timeInMillis: Long): String {
     return String.format("%01d:%02d:%02d.%01d", hours, minutes, secs, hundredths/10)
     //return String.format(":%02d", hundredths)
 }
+*/
 
 @Preview(showBackground = true)
 @Composable
