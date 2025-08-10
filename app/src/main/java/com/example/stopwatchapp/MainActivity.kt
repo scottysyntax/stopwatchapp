@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.example.stopwatchapp.ui.theme.StopwatchappTheme
 import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
+import androidx.compose.foundation.shape.RoundedCornerShape
 
 // This runs everything
 class MainActivity : ComponentActivity() {
@@ -65,33 +67,48 @@ fun StopwatchScreen() {
         // Sets the font attributes for the numbers
         Text(
             text = formatTime(elapsedTimeInMillis   ),
-            fontSize = 60.sp,
+            fontSize = 80.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 32.dp)
+            modifier = Modifier.padding(bottom = 60.dp)
         )
 
         // Button row
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 32.dp)
         ) {
             // Change the Start button display to Pause, Resume, or Start, depending.
-            Button(onClick = { isRunning = !isRunning }) {
+            Button(
+                onClick = { isRunning = !isRunning },
+                modifier = Modifier
+                    .width(180.dp)
+                    .height(60.dp),
+                shape = RoundedCornerShape(8.dp)
+            ) {
                 Text(
                     text = when {
                         isRunning -> "Pause"
                         elapsedTimeInMillis > 0L -> "Resume"
                         else -> "Start"
-                    }
+                    },
+                    fontSize=35.sp
                 )
             }
 
             //Reset button
-            Button(onClick = {
-                isRunning = false
-                elapsedTimeInMillis = 0
-            }) {
-                Text("Reset")
+            Button(
+                    onClick = {
+                        isRunning = false
+                        elapsedTimeInMillis = 0
+                    },
+                    modifier = Modifier
+                        .width(180.dp)
+                        .height(60.dp),
+                    shape = RoundedCornerShape(8.dp)
+            ) {
+                Text("Reset", fontSize=35.sp)
             }
         } // end Button Row
     } //end Main Column
